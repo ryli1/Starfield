@@ -1,5 +1,6 @@
 //domain expansion moment
 // infinite void
+//use arrays and not ArrayList for better performance
 
 ArrayList <Particle> particles = new ArrayList <Particle>(); 
 
