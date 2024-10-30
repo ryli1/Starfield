@@ -4,72 +4,108 @@
 
 ArrayList <Particle> particles = new ArrayList <Particle>(); 
 
-int numOfObjects = 100;
+int numOfObjects = 5000;
 Particle[] particlez = new Particle[numOfObjects];
 
 void setup() {
-  frameRate(240);
+  frameRate(1000);
   size(700, 600);
-  background(0);
-  for (int i = 0; i < 5000; i++) {
-    particles.add(i, new Particle());
+  background(255);
+  for (int i = 0; i < numOfObjects; i++) {
+    particles.add(new Particle());
   }
 }
 
 boolean booleanThing = false;
+int num = 0;
+
 
 void draw() {
-  background(0);
+  System.out.println(num);
+  if (num >= particles.size()+10000) { //once enough particles has crossed, replace them
+    num = 0;
+    replaceParticlez();
+    booleanThing = true;
+  }
+  if (booleanThing == false) {
+    background(0);
+  }
   for (Particle i : particles) {
     i.show();
     i.move();
   }
-  midCircle(booleanThing);
+  if (booleanThing == true) {
+    midCircle();
+  }
 }
 
 class Particle {
   double x, y, rotation, speed;
+  int mySize;
+  color myColor;
   Particle() {
-    x = 350;
-    y = 300;
+    x = width/2;
+    y = height/2;
     rotation = radians((float)Math.random()*360);
     speed = 10;
+    mySize = 5;
+    myColor = color(255);
   }
-
   void move() {
     y += Math.sin(rotation)*speed;
     x += Math.cos(rotation)*speed;
     if (x < 0 || x > 700) {
       x = width/2; 
       y = height/2;
-      speed = Math.random()*5+1;
-      booleanThing = true;
+      mySize = 1;
+      speed = speed/(Math.random()*3);
+      num++;
     }
   }
-
   void show() {
     noStroke();
-    fill(255);
-    ellipse((float)x, (float)y, 5, 5);
+    fill(myColor);
+    ellipse((float)x, (float)y, mySize, mySize);
   }
 }
 
 class Oddball extends Particle {
-  Oddball() {
-    super();
-  }                                     
-
+  Oddball(color aColor) {
+    x = width/2;
+    y = height/2;
+    rotation = radians((float)Math.random()*360);
+    speed = Math.random()*10+1;
+    mySize = 1;
+    myColor = aColor;
+  }                 
   void move() {
-  }
-
-  void show() {
+    y += Math.sin(rotation)*speed;
+    x += Math.cos(rotation)*speed;
+    if (x < 0 || x > 700) {
+      x = width/2; 
+      y = height/2;
+      speed = Math.random()*6+1;
+    }
   }
 }
 
-void midCircle(boolean trueFalse) {
-  if (trueFalse == true) {
-    fill(0);
-    stroke(255);
-    ellipse(width/2, height/2, 250, 250);
+void midCircle() {
+  fill(0);
+  ellipse(width/2, height/2, 100, 100);
+}
+
+void replaceParticlez() {
+  for (int i = 0; i < particles.size(); i++) {
+    int ranNum = (int)(Math.random()*12);
+    if (ranNum == 0) {
+      particles.set(i, new Oddball(color(255)));
+    } else if (ranNum == 1) {
+      particles.set(i, new Oddball(color(#F54040)));
+    } else if (ranNum == 2) {
+      particles.set(i, new Oddball(color(#405CF5)));
+    }
+    else { //more likely to choose black
+      particles.set(i, new Oddball(color(0)));
+    }
   }
 }
