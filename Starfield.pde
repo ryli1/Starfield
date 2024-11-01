@@ -1,11 +1,10 @@
-//domain expansion moment
-// infinite void
+
 //use arrays and not ArrayList for better performance
 
 ArrayList <Particle> particles = new ArrayList <Particle>(); 
 
 int numOfObjects = 5000;
-Particle[] particlez = new Particle[numOfObjects];
+//Particle[] particlez = new Particle[numOfObjects];
 
 void setup() {
   frameRate(1000);
@@ -19,8 +18,10 @@ void setup() {
 boolean booleanThing = false;
 int num = 0;
 
+int num2 = 3000;
 
 void draw() {
+  System.out.println(particles.size());
   if (num >= particles.size()+10000) { //once enough particles has crossed, replace them
     num = 0;
     replaceParticlez();
@@ -73,7 +74,7 @@ class Oddball extends Particle {
     x = width/2;
     y = height/2;
     rotation = radians((float)Math.random()*360);
-    speed = Math.random()*10+1;
+    speed = Math.random()*12+1;
     mySize = 1;
     myColor = aColor;
   }                 
@@ -90,18 +91,22 @@ class Oddball extends Particle {
 
 void midCircle() {
   fill(0);
-  ellipse(width/2, height/2, 100, 100);
+  ellipse(width/2, height/2, 50, 50);
 }
 
 void replaceParticlez() {
-  for (int i = 0; i < particles.size(); i++) {
-    int ranNum = (int)(Math.random()*12);
-    if (ranNum == 0) {
-      particles.set(i, new Oddball(color(255)));
-    } else if (ranNum == 1) {
-      particles.set(i, new Oddball(color(#F54040)));
+  for (int i = 0; i < numOfObjects; i++) {
+    int ranNum = (int)(Math.random()*6);
+    if (ranNum == 0 || ranNum == 1) {
+      //particles.set(i, new Oddball(color(255)));
+      particles.remove(
+      particles.add(new Oddball(color(255)));
     } else if (ranNum == 2) {
+      particles.set(i, new Oddball(color(#F54040)));
+      //particles.add(new Oddball(color(#F54040)));
+    } else if (ranNum == 3) {
       particles.set(i, new Oddball(color(#405CF5)));
+      //particles.add(new Oddball(color(#405CF5)));
     }
     else { //more likely to choose black
       particles.set(i, new Oddball(color(0)));
