@@ -21,7 +21,6 @@ int num = 0;
 int num2 = 3000;
 
 void draw() {
-  System.out.println(particles.size());
   if (num >= particles.size()+10000) { //once enough particles has crossed, replace them
     num = 0;
     replaceParticlez();
