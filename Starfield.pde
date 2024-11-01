@@ -7,7 +7,6 @@ int numOfObjects = 5000;
 //Particle[] particlez = new Particle[numOfObjects];
 
 void setup() {
-  frameRate(1000);
   size(700, 600);
   background(255);
   for (int i = 0; i < numOfObjects; i++) {
@@ -18,9 +17,10 @@ void setup() {
 boolean booleanThing = false;
 int num = 0;
 
-int num2 = 3000;
+int midCircleSize = 50;
 
 void draw() {
+  System.out.println(particles.size());
   if (num >= particles.size()+10000) { //once enough particles has crossed, replace them
     num = 0;
     replaceParticlez();
@@ -34,7 +34,7 @@ void draw() {
     i.move();
   }
   if (booleanThing == true) {
-    midCircle();
+    midCircle(midCircleSize);
   }
 }
 
@@ -88,9 +88,15 @@ class Oddball extends Particle {
   }
 }
 
-void midCircle() {
+void midCircle(int thisSize) {
   fill(0);
-  ellipse(width/2, height/2, 50, 50);
+  ellipse(width/2, height/2, thisSize, thisSize);
+  if(midCircleSize >= 50) { //FIX TIHS PART
+    midCircleSize--; 
+  }
+  else if(midCircleSize <= 25) {
+    midCircleSize++;
+  }
 }
 
 void replaceParticlez() {
@@ -98,7 +104,6 @@ void replaceParticlez() {
     int ranNum = (int)(Math.random()*6);
     if (ranNum == 0 || ranNum == 1) {
       //particles.set(i, new Oddball(color(255)));
-      particles.remove(
       particles.add(new Oddball(color(255)));
     } else if (ranNum == 2) {
       particles.set(i, new Oddball(color(#F54040)));
