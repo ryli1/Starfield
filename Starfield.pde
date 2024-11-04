@@ -17,10 +17,8 @@ void setup() {
 boolean booleanThing = false;
 int num = 0;
 
-int midCircleSize = 50;
-
 void draw() {
-  System.out.println(particles.size());
+  //System.out.println(particles.size());
   if (num >= particles.size()+10000) { //once enough particles has crossed, replace them
     num = 0;
     replaceParticlez();
@@ -34,7 +32,7 @@ void draw() {
     i.move();
   }
   if (booleanThing == true) {
-    midCircle(midCircleSize);
+    midCircle();
   }
 }
 
@@ -87,15 +85,26 @@ class Oddball extends Particle {
     }
   }
 }
+float midCircleSize = 50;
+boolean expanding = false;
 
-void midCircle(int thisSize) {
+void midCircle() {
   fill(0);
-  ellipse(width/2, height/2, thisSize, thisSize);
-  if(midCircleSize >= 50) { //FIX TIHS PART
-    midCircleSize--; 
+  stroke(255);
+  strokeWeight(5);
+  ellipse(width/2, height/2, midCircleSize, midCircleSize);
+  System.out.println(expanding);
+  if(expanding == false) {
+    midCircleSize -= 0.25;
+    if(midCircleSize <= 25) {
+      expanding = true; 
+    }
   }
-  else if(midCircleSize <= 25) {
-    midCircleSize++;
+  else if(expanding == true) {
+    midCircleSize += 0.25;
+    if(midCircleSize >= 100) {
+      expanding = false; 
+    }
   }
 }
 
@@ -103,17 +112,17 @@ void replaceParticlez() {
   for (int i = 0; i < numOfObjects; i++) {
     int ranNum = (int)(Math.random()*6);
     if (ranNum == 0 || ranNum == 1) {
-      //particles.set(i, new Oddball(color(255)));
-      particles.add(new Oddball(color(255)));
+      particles.set(i, new Oddball(color(255)));
+      //particles.add(new Oddball(color(255)));
     } else if (ranNum == 2) {
       particles.set(i, new Oddball(color(#F54040)));
       //particles.add(new Oddball(color(#F54040)));
     } else if (ranNum == 3) {
       particles.set(i, new Oddball(color(#405CF5)));
       //particles.add(new Oddball(color(#405CF5)));
+    } else { //more likely to choose black
+      particles.add(i, new Oddball(color(0)));
     }
-    else { //more likely to choose black
-      particles.set(i, new Oddball(color(0)));
-    }
+    particles.get(i).speed = -particles.get(i).speed;
   }
 }
