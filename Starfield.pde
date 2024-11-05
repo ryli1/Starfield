@@ -93,7 +93,6 @@ void midCircle() {
   stroke(255);
   strokeWeight(5);
   ellipse(width/2, height/2, midCircleSize, midCircleSize);
-  System.out.println(expanding);
   if(expanding == false) {
     midCircleSize -= 0.25;
     if(midCircleSize <= 25) {
